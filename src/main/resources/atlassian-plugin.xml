@@ -1,0 +1,126 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <!--<param name="vendor-icon">/com/kolhozcustoms/atlas/plugins/userprofile/images/nologo.jpg</param>
+        <param name="vendor-logo">/com/kolhozcustoms/atlas/plugins/userprofile/images/nolog.jpg</param>-->
+        <param name="plugin-icon">/com/kolhozcustoms/atlas/plugins/userprofile/images/icon.png</param>
+        <param name="plugin-logo">/com/kolhozcustoms/atlas/plugins/userprofile/images/logo.png</param>
+        <param name="configure.url">/secure/ProfileSchemeViewAction!default.jspa</param>
+        <param name="atlassian-data-center-compatible">true</param>
+    </plugin-info>
+
+    <!-- I18N -->
+    <resource type="i18n" name="i18n" location="/com/kolhozcustoms/atlas/plugins/userprofile/i18n/userprofile"/>
+
+    <!-- Web Resources -->
+    <web-resource key="user-profile-contacts-resources" name="Jira Profile Contacts Web Resources">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:aui-page-layout</dependency>
+        <dependency>com.atlassian.auiplugin:dialog2</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency>
+        <resource type="download" name="user-profile-contacts.js" location="/com/kolhozcustoms/atlas/plugins/userprofile/js/user-profile-contacts.js"/>
+        <context>user-profile-contacts</context>
+    </web-resource>
+        <web-resource key="user-profile-scheme-resources" name="Jira Profile Field Scheme Web Resources">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:aui-page-layout</dependency>
+        <dependency>com.atlassian.auiplugin:dialog2</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency>
+        <dependency>com.atlassian.auiplugin:aui-form-validation</dependency>
+        <resource type="download" name="user-profile-scheme.js" location="/com/kolhozcustoms/atlas/plugins/userprofile/js/user-profile-scheme.js"/>
+        <context>user-profile-scheme</context>
+    </web-resource>
+    <web-resource key="user-profile-profile-panel-resources" name="Jira User profile Profile Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:dialog2</dependency>
+        <resource name="user-profile-panel.js" type="download" location="/com/kolhozcustoms/atlas/plugins/userprofile/js/user-profile-panel.js"/>
+        <context>user-profile-panel</context>
+    </web-resource>
+
+    <!-- Profile Panel -->
+    <web-panel key="user-profile-panel" name="Jira User Profile Panel" location="webpanels.user.profile.summary.custom" weight="250">
+        <context>atl.userprofile</context>
+        <!-- <condition class="com.kolhozcustoms.atlas.plugins.userprofile.panel.ProfileExtendedPanelCondition"/>-->
+        <context-provider class="com.kolhozcustoms.atlas.plugins.userprofile.panel.ProfileExtendedPanel"/>
+        <resource type="velocity" name="view" location="/com/kolhozcustoms/atlas/plugins/userprofile/templates/profile/profile-panel.vm"/>
+    </web-panel>
+
+    <!-- Components -->
+    <component key="profile-scheme-service" name="Jira Profile Field Scheme Manager" class="com.kolhozcustoms.atlas.plugins.userprofile.manager.impl.FieldSchemeManagerImpl">
+        <interface>com.kolhozcustoms.atlas.plugins.userprofile.manager.FieldSchemeManager</interface>
+    </component>
+    
+    <component key="profile-user-data-manager" name="Jira Profile User Data Manager" class="com.kolhozcustoms.atlas.plugins.userprofile.manager.impl.UserDataManagerImpl">
+        <interface>com.kolhozcustoms.atlas.plugins.userprofile.manager.UserDataManager</interface>
+    </component>
+    <component key="tx-processor" name="Transactional Annotation Processor" class="com.atlassian.activeobjects.external.TransactionalAnnotationProcessor"/>
+
+    <!-- Component Imports -->
+    <!--<component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory"/>-->
+    <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties"/>
+    <component-import key="ao" interface="com.atlassian.activeobjects.external.ActiveObjects"/>
+    <component-import key="transactionTemplate" interface="com.atlassian.sal.api.transaction.TransactionTemplate"/>
+
+    <!-- REST -->
+    <rest key="userprofile-rest-resource" name="Jira Userprofile Rest Resource" path="/userprofile" version="1.0">
+        <description>Jira Extended User Profile REST Resources.</description>
+    </rest>
+
+    <!-- AO -->
+    <ao key="profile-auth-ao-module" name="Jira Profile AO Module">
+        <entity>com.kolhozcustoms.atlas.plugins.userprofile.data.ao.FieldSchemeAO</entity>
+        <entity>com.kolhozcustoms.atlas.plugins.userprofile.data.ao.UserDataAO</entity>
+        <entity>com.kolhozcustoms.atlas.plugins.userprofile.data.ao.UserDataBlobAO</entity>
+    </ao>
+
+    <!-- Web Items -->
+    <web-section key="profile-admin-section" name="Jira Profile Admin Section" location="admin_plugins_menu">
+        <label key="com.kolhozcustoms.atlas.plugins.user-profile.admin.section"/>
+        <tooltip key="com.kolhozcustoms.atlas.plugins.user-profile.admin.section.tooltip"/>
+        <conditions type="AND">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsAdminCondition"/>
+        </conditions>
+    </web-section>
+    <web-item key="profile-admin-contacts-link" name="Jira Profile Contacts" section="admin_plugins_menu/profile-admin-section" weight="201">
+        <label key="com.kolhozcustoms.atlas.plugins.user-profile.admin.profile.link"/>
+        <description key="com.kolhozcustoms.atlas.plugins.user-profile.admin.profile.link.desc"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.JiraGlobalPermissionCondition">
+            <param name="permission">admin</param>
+        </condition>
+        <link linkId="profile-admin-contacts-link">/secure/ProfileContactsViewAction!default.jspa</link>
+    </web-item>
+    <web-item key="profile-admin-scheme-link" name="Jira Profile scheme settings" section="admin_plugins_menu/profile-admin-section" weight="202">
+        <label key="com.kolhozcustoms.atlas.plugins.user-profile.admin.scheme.link"/>
+        <description key="com.kolhozcustoms.atlas.plugins.user-profile.admin.scheme.link.desc"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.JiraGlobalPermissionCondition">
+            <param name="permission">admin</param>
+        </condition>
+        <link linkId="profile-admin-scheme-link">/secure/ProfileSchemeViewAction!default.jspa</link>
+    </web-item>
+
+    <!-- Web Actions -->
+    <webwork1 key="profile-actions" name="Jira Profile Web Actions" class="java.lang.Object">
+        <actions>
+            <action name="com.kolhozcustoms.atlas.plugins.userprofile.action.admin.ProfileDataViewAction" alias="ProfileDataViewAction">
+                <view name="input">/com/kolhozcustoms/atlas/plugins/userprofile/templates/admin/profiles-view.vm</view>
+                <view name="error">/com/kolhozcustoms/atlas/plugins/userprofile/templates/admin/profiles-view.vm</view>
+                <view name="success">/com/kolhozcustoms/atlas/plugins/userprofile/templates/admin/profiles-view.vm</view>
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
+            <action name="com.kolhozcustoms.atlas.plugins.userprofile.action.admin.ProfileSchemeViewAction" alias="ProfileSchemeViewAction">
+                <view name="input">/com/kolhozcustoms/atlas/plugins/userprofile/templates/admin/scheme-view.vm</view>
+                <view name="error">/com/kolhozcustoms/atlas/plugins/userprofile/templates/admin/scheme-view.vm</view>
+                <view name="success">/com/kolhozcustoms/atlas/plugins/userprofile/templates/admin/scheme-view.vm</view>
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
+        </actions>
+    </webwork1>
+</atlassian-plugin>

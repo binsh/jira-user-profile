@@ -1,0 +1,71 @@
+$webResourceManager.requireResourcesForContext("user-profile-panel")
+<div id="profile-user-profile-fragment" class="module">
+    <div class="mod-header">
+        #if( $isProfileOwner )
+        <ul class="ops">
+            <li>
+                <a id="edit-profile-profile-link" class="aui-button aui-button-subtle" href="#" title="Edit" aria-controls="update-user-preferences">
+                    <span class="aui-icon aui-icon-small aui-iconfont-edit">Edit</span>
+                </a>
+            </li>
+        </ul>
+        #end
+        <h3>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.title")</h3>
+    </div>
+    <div class="mod-content">
+        <div id="profile-action-dialog" class="aui-message info" style="display:none;">
+            <span class="aui-icon icon-info"></span>
+            $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.updated")
+        </div>
+        <ul class="item-details">
+        #foreach ($field in $scheme)
+            <li>
+                <dl title='$field.getDisplayName()'>
+                    <dt>$field.getDisplayName():</dt>
+                    <dd>
+                        <span id="up-profile-$field.getKey()">$!{data.get($field.getKey()).getContent()}</span>
+                    </dd>
+                </dl>
+            </li>
+        #end
+        </ul>
+    </div>
+    #if( $isProfileOwner )
+    <section role="dialog" id="profile-user-profile-dialog" class="aui-layer aui-dialog2 aui-dialog2-medium" aria-hidden="true">
+        <form action="UpdateUserPreferences.jspa" class="aui" id="update-user-preferences" method="post" aria-controls="" data-id="${currentUser.getKey()}">
+            <header class="aui-dialog2-header">
+                <h2 class="aui-dialog2-header-main">$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.title")</h2>
+                <a class="aui-dialog2-header-close">
+                <span class="aui-icon aui-icon-small aui-iconfont-close-dialog">
+                    $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.close")
+                </span>
+                </a>
+            </header>
+            <div class="aui-dialog2-content">
+                <div class="form-body" style="max-height: 640px;">
+                    <fieldset>
+                        <!--<input type="hidden" id="up-profile-key" name="key" value="${currentUser.getKey()}">-->
+                        #foreach ($field in $scheme)
+                        <div class="field-group">
+                            <label for="up-profile-new-$field.getKey()">
+                                $field.getDisplayName()
+                            </label>
+                            <input class="text" id="up-profile-new-$field.getKey()" maxlength="255" name="$field.getKey()" type="text"/>
+                        </div>
+                        #end
+                        <div class="field-group">
+                            <div class="error" id="error"></div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <footer class="aui-dialog2-footer">
+                <div class="aui-dialog2-footer-actions">
+                    <button id="profile-dialog-save" class="aui-button">$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.save")</button>
+                    <button id="profile-dialog-close" class="aui-button aui-button-link">$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.close")</button>
+                </div>
+            </footer>
+        </form>
+    </section>
+    #end
+</div>

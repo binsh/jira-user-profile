@@ -1,0 +1,222 @@
+$webResourceManager.requireResourcesForContext("user-profile-panel")
+<div id="profile-user-profile-fragment" class="module">
+    <div class="mod-header">
+        #if( $isProfileOwner )
+        <ul class="ops">
+            <li>
+                <a id="edit-profile-profile-link" class="aui-button aui-button-subtle" href="#" title="Edit" aria-controls="update-user-preferences">
+                    <span class="aui-icon aui-icon-small aui-iconfont-edit">Edit</span>
+                </a>
+            </li>
+        </ul>
+        #end
+        <h3>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.title")</h3>
+    </div>
+    <div class="mod-content">
+        <div id="profile-action-dialog" class="aui-message info hidden">
+            <span class="aui-icon icon-info"></span>
+            $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.updated")
+        </div>
+        <ul class="item-details">
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.departament")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.departament"):</dt>
+                    <dd>
+                        <span id="up-profile-departament">$!{departament}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.position")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.position"):</dt>
+                    <dd>
+                        <span id="up-profile-position">$!{position}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.grade")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.grade"):</dt>
+                    <dd>
+                        <span id="up-profile-grade">$!{grade}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.city")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.city"):</dt>
+                    <dd>
+                        <span id="up-profile-city">$!{city}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.adress")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.adress"):</dt>
+                    <dd>
+                        <span id="up-profile-adress">$!{adress}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.phone")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.phone"):</dt>
+                    <dd>
+                        <span id="up-profile-phone">$!{phone}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.mail")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.mail"):</dt>
+                    <dd>
+                        <span id="up-profile-mail">$!{mail}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.birthday")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.birthday"):</dt>
+                    <dd>
+                        <span id="up-profile-birthday">$!{birthday}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.employment-date")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.employment-date"):</dt>
+                    <dd>
+                        <span id="up-profile-employmentDate">$!{employmentDate}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.social-link")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.social-link"):</dt>
+                    <dd>
+                        <span id="up-profile-socialLink">$!{socialLink}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.telegream-link")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.telegream-link"):</dt>
+                    <dd>
+                        <span id="up-profile-telegreamUserLink">$!{telegreamUserLink}</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl title='$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.about")'>
+                    <dt>$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.about"):</dt>
+                    <dd>
+                        <span id="up-profile-about">$!{about}</span>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    #if( $isProfileOwner )
+    <section role="dialog" id="profile-user-profile-dialog" class="aui-layer aui-dialog2 aui-dialog2-medium" aria-hidden="true">
+        <form action="UpdateUserPreferences.jspa" class="aui" id="update-user-preferences" method="post" aria-controls="">
+            <header class="aui-dialog2-header">
+                <h2 class="aui-dialog2-header-main">$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.title")</h2>
+                <a class="aui-dialog2-header-close">
+                <span class="aui-icon aui-icon-small aui-iconfont-close-dialog">
+                    $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.close")
+                </span>
+                </a>
+            </header>
+            <div class="aui-dialog2-content">
+                <div class="form-body" style="max-height: 640px;">
+                    <fieldset>
+                        <input type="hidden" id="up-profile-key" name="key" value="${currentUser.getKey()}">
+                        <div class="field-group">
+                            <label for="up-profile-new-departament">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.departament")
+                            </label>
+                            <input class="text" id="up-profile-new-departament" maxlength="255" name="departament" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-position">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.position")
+                            </label>
+                            <input class="text" id="up-profile-new-position" maxlength="255" name="position" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-grade">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.grade")
+                            </label>
+                            <input class="text" id="up-profile-new-grade" maxlength="255" name="grade" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-city">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.city")
+                            </label>
+                            <input class="text" id="up-profile-new-city" maxlength="255" name="city" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-adress">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.adress")
+                            </label>
+                            <input class="text" id="up-profile-new-adress" maxlength="255" name="adress" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-phone">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.phone")
+                                <span class="aui-icon icon-required"> required</span>
+                            </label>
+                            <input class="text" id="up-profile-new-phone" maxlength="255" name="phone" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-mail">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.mail")
+                            </label>
+                            <input class="text" id="up-profile-new-mail" maxlength="255" name="mail" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-birthday">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.birthday")
+                            </label>
+                            <input class="text" id="up-profile-new-birthday" maxlength="255" name="birthday" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-employmentDate">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.employment-date")
+                            </label>
+                            <input class="text" id="up-profile-new-employmentDate" maxlength="255" name="employmentDate" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-socialLink">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.social-link")
+                            </label>
+                            <input class="text" id="up-profile-new-socialLink" maxlength="255" name="socialLink" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-telegreamUserLink">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.telegream-link")
+                            </label>
+                            <input class="text" id="up-profile-new-telegreamUserLink" maxlength="255" name="telegreamUserLink" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <label for="up-profile-new-about">
+                                $i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.about")
+                            </label>
+                            <input class="text" id="up-profile-new-about" maxlength="255" name="about" type="text"/>
+                        </div>
+                        <div class="field-group">
+                            <div class="error" id="error"></div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <footer class="aui-dialog2-footer">
+                <div class="aui-dialog2-footer-actions">
+                    <button id="profile-dialog-save" class="aui-button">$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.save")</button>
+                    <button id="profile-dialog-close" class="aui-button aui-button-link">$i18n.getText("com.kolhozcustoms.atlas.plugins.user-profile.profile.close")</button>
+                </div>
+            </footer>
+        </form>
+    </section>
+    #end
+</div>
